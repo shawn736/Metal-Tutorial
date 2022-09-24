@@ -42,14 +42,11 @@ public class MetalView: NSObject, MTKViewDelegate {
     }
     
     func createPipeline() {
-        let path = Bundle.main.path(forResource: "Shaders", ofType: "metal")
-        let input: String?
         let library: MTLLibrary
         let vert_func: MTLFunction
         let frag_func: MTLFunction
         do {
-            input = try String(contentsOfFile: path!, encoding: String.Encoding.utf8)
-            library = try device!.makeLibrary(source: input!, options: nil)
+            library = try device!.makeDefaultLibrary()!
             vert_func = library.makeFunction(name: "vertex_func")!
             frag_func = library.makeFunction(name: "fragment_func")!
             let rpld = MTLRenderPipelineDescriptor()
