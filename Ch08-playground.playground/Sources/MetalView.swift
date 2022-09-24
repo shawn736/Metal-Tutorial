@@ -28,24 +28,17 @@ public class MetalView: NSObject, MTKViewDelegate {
     }
     
     func registerShaders() {
-        let path = Bundle.main.path(forResource: "Shaders", ofType: "metal")
-        let input: String?
         let library: MTLLibrary
         let vert_func: MTLFunction
         let frag_func: MTLFunction
-        do {
-            input = try String(contentsOfFile: path!, encoding: String.Encoding.utf8)
-            library = try device!.makeLibrary(source: input!, options: nil)
-            vert_func = library.makeFunction(name: "vertex_func")!
-            frag_func = library.makeFunction(name: "fragment_func")!
-            let rpld = MTLRenderPipelineDescriptor()
-            rpld.vertexFunction = vert_func
-            rpld.fragmentFunction = frag_func
-            rpld.colorAttachments[0].pixelFormat = .bgra8Unorm
-            rps = try device!.makeRenderPipelineState(descriptor: rpld)
-        } catch let e {
-            Swift.print("\(e)")
-        }
+        library = device.makeDefaultLibrary()!
+        vert_func = library.makeFunction(name: "vertex_func")!
+        frag_func = library.makeFunction(name: "fragment_func")!
+        let rpld = MTLRenderPipelineDescriptor()
+        rpld.vertexFunction = vert_func
+        rpld.fragmentFunction = frag_func
+        rpld.colorAttachments[0].pixelFormat = .bgra8Unorm
+        rps = try! device.makeRenderPipelineState(descriptor: rpld)
     }
     
     public func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {}
