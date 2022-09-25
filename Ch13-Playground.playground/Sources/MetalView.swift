@@ -54,10 +54,8 @@ public class MetalView: MTKView, NSWindowDelegate {
     
     func registerShaders() {
         queue = device!.makeCommandQueue()
-        let path = Bundle.main.path(forResource: "Shaders", ofType: "metal")
         do {
-            let input = try String(contentsOfFile: path!, encoding: String.Encoding.utf8)
-            let library = try device!.makeLibrary(source: input, options: nil)
+            let library = device!.makeDefaultLibrary()!
             let kernel = library.makeFunction(name: "compute")!
             cps = try device!.makeComputePipelineState(function: kernel)
         } catch let e {
