@@ -42,6 +42,7 @@ import PlaygroundSupport
 
 let frame = CGRect(x: 0, y: 0, width: 300, height: 300)
 let view = MTKView(frame: frame)
+view.framebufferOnly = false
 let delegate = MetalView(mtkView: view, shader: shader)
 view.delegate = delegate
 PlaygroundPage.current.liveView = view

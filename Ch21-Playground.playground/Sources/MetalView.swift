@@ -16,10 +16,8 @@ public class MetalView: NSObject, MTKViewDelegate {
     }
     
     func registerShaders() {
-        guard let path = Bundle.main.path(forResource: "Shaders", ofType: "metal") else { return }
         do {
-            let input = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
-            let library = try device.makeLibrary(source: input, options: nil)
+            let library = device.makeDefaultLibrary()!
             guard let kernel = library.makeFunction(name: "compute") else { return }
             cps = try device.makeComputePipelineState(function: kernel)
         } catch let e {

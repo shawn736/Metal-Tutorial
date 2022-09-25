@@ -41,9 +41,8 @@ public class Render : NSObject, MTKViewDelegate {
     }
     
     class func buildRenderPipelineWithDevice(device: MTLDevice, view: MTKView) throws -> MTLRenderPipelineState {
-        guard let path = Bundle.main.path(forResource: "Shaders", ofType: "metal") else { fatalError() }
-        let input = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
-        let library = try device.makeLibrary(source: input, options: nil)
+        
+        let library = device.makeDefaultLibrary()!
         let vertexFunction = library.makeFunction(name: "vertex_transform")
         let fragmentFunction = library.makeFunction(name: "fragment_lighting")
         let pipelineDescriptor = MTLRenderPipelineDescriptor()
